@@ -4,12 +4,19 @@
 
 // Set the number to whichever part you're currently useing
 // i.e. for part two "STEP_NUMBER 2"
-#define STEP_NUMBER 1
+#define STEP_NUMBER 3
 
 bool check_failure(int);
 int psuedo_random(void);
 void failure(void);
 void success(void);
+
+void blink() {
+  digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
+  delay(1000);                       // wait for a second
+  digitalWrite(LED_BUILTIN, LOW);    // turn the LED off by making the voltage LOW
+  delay(1000);                       // wait for a second
+}
 
 #if STEP_NUMBER == 1
 
@@ -26,7 +33,7 @@ void sensor_init(void)
   if(check_failure(3))
   {
     //your code here
-
+    blink();
     failure();
   }
 }
@@ -36,7 +43,8 @@ void actuator_init(void)
   if(check_failure(5))
   {
     //your code here
-
+    blink();
+    blink();
     failure();
   }
 }
@@ -46,16 +54,19 @@ void wifi_init(void)
   if(check_failure(7))
   {
     //your code here
-
+    blink();
+    blink();
+    blink();
     failure();
   }
 }
 
 void setup(void)
 {
+  pinMode(LED_BUILTIN, OUTPUT); 
   sensor_init();
   actuator_init();
-  wifi_init(); 
+  wifi_init();
 }
 
 void loop(void){
@@ -82,7 +93,7 @@ void loop(void)
       if(check_failure(i))
       {
         //insert your code here
-
+        Serial.println(i);
         failure();
       }
     }
@@ -105,7 +116,7 @@ void setup(void)
 void loop(void)
 {
     int num;
-    for(int i = 0; i < 500; i++)
+    for(;;)
     {
         num = psuedo_random();
         digitalWrite(13, HIGH);
@@ -137,6 +148,7 @@ void success(void)
 
 void failure(void)
 {
+  delay(2000);
   for(;;)
   {
     digitalWrite(13, HIGH);
